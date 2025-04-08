@@ -1,4 +1,5 @@
 from rest_framework import generics
+from rest_framework.views import APIView
 from studentregisterapi.forms import StudentForm
 from .models import School, Teacher, Subject, Status, Homeroom, Student, StudentSubject
 from django.shortcuts import get_object_or_404, redirect, render,redirect
@@ -13,67 +14,72 @@ from .serealizers import (
 )
 
 # School Views
-class SchoolListCreateAPIView(generics.ListCreateAPIView):
+class SchoolListCreateView(generics.ListCreateAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
 
-class SchoolDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class SchoolDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = School.objects.all()
     serializer_class = SchoolSerializer
 
 # Teacher Views
-class TeacherListCreateAPIView(generics.ListCreateAPIView):
+class TeacherListCreateView(generics.ListCreateAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
 
-class TeacherDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class TeacherDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Teacher.objects.all()
     serializer_class = TeacherSerializer
 
 # Subject Views
-class SubjectListCreateAPIView(generics.ListCreateAPIView):
+class SubjectListCreateView(generics.ListCreateAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
 
-class SubjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class SubjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Subject.objects.all()
     serializer_class = SubjectSerializer
 
 # Status Views
-class StatusListCreateAPIView(generics.ListCreateAPIView):
+class StatusListCreateView(generics.ListCreateAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
 
-class StatusDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class StatusDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Status.objects.all()
     serializer_class = StatusSerializer
 
 # Homeroom Views
-class HomeroomListCreateAPIView(generics.ListCreateAPIView):
+class HomeroomListCreateView(generics.ListCreateAPIView):
     queryset = Homeroom.objects.all()
     serializer_class = HomeroomSerializer
 
-class HomeroomDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class HomeroomDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Homeroom.objects.all()
     serializer_class = HomeroomSerializer
 
 # Student Views
-class StudentListCreateAPIView(generics.ListCreateAPIView):
+class StudentListCreateView(generics.ListCreateAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
-class StudentDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class StudentDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Student.objects.all()
     serializer_class = StudentSerializer
 
 # StudentSubject Views
-class StudentSubjectListCreateAPIView(generics.ListCreateAPIView):
+class StudentSubjectListCreateView(generics.ListCreateAPIView):
     queryset = StudentSubject.objects.all()
     serializer_class = StudentSubjectSerializer
 
-class StudentSubjectDetailAPIView(generics.RetrieveUpdateDestroyAPIView):
+class StudentSubjectDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = StudentSubject.objects.all()
     serializer_class = StudentSubjectSerializer
+class StudentRosterView(APIView):
+    def get(self, request):
+        students = Student.objects.all()
+        serializer = StudentSerializer(students, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
 
 def table_view(request):
     # Fetch all students (you can add filtering, ordering, etc. as needed)
